@@ -32,12 +32,17 @@ object get {
       return -1
     }
 
-    def operation(a: Int, b: Int, c: String): Int = {
-      if (c == "+") return a + b
-      else if (c == "-") return a - b
-      else if (c == "*") return a * b
-      else if (c == "/") return a / b
-      else if (c == "%") return a % b
+    def operation(b: Int, a: Int, c: String): Int = {
+      if (c == "+") return b + a
+      else if (c == "-") return b - a
+      else if (c == "*") return b * a
+      else if (c == "/") {
+        if (a != 0)
+          return b / a
+        else
+          return  -1
+      }
+      else if (c == "%") return b % a
       else return -1
     }
     def isOperator(c: String): Boolean = {
@@ -133,26 +138,32 @@ object get {
       var operand = Stack[Int]()
       var obj = new assistantFunctions
       val sarray = s.split(" ") // for that number that jave more than one digit
-
-      for (i <- 0 to sarray.length-1) {
-        if (!obj.isOperator(sarray(i)) && sarray(i) != ' ') {
-          var num:Int = 0
-          num = sarray(i).toInt
-          if (num != 0)
-            operand.push(num)
-        }
-        if (obj.isOperator(sarray(i))) {
-          var a:Int = 0
-          var b:Int = 0
-          var sum:Int = 0
-          a = operand.top
-          operand.pop()
-          b = operand.top
-          operand.pop()
-          sum = obj.operation(b, a, sarray(i))
-          operand.push(sum)
-          if(!operand.isEmpty){
-            ans = operand.top
+      val byeBye = new Breaks;
+      byeBye.breakable {
+        for (i <- 0 to sarray.length - 1) {
+          if (!obj.isOperator(sarray(i)) && sarray(i) != ' ') {
+            var num: Int = -1
+            num = sarray(i).toInt
+            if (num != -1)
+              operand.push(num)
+          }
+          if (obj.isOperator(sarray(i))) {
+            var a: Int = 0
+            var b: Int = 0
+            var sum: Int = 0
+            a = operand.top
+            operand.pop()
+            b = operand.top
+            operand.pop()
+            if (a == 0 && sarray(i) == "/") {
+              ans = -1
+              byeBye.break()
+            }
+            sum = obj.operation(b, a, sarray(i))
+            operand.push(sum)
+            if (!operand.isEmpty) {
+              ans = operand.top
+            }
           }
         }
       }
@@ -167,10 +178,12 @@ object get {
     var obj = new mainFunctions()
     ans = obj.convertFromInfixToPostfix(a)
     value = obj.evaluatingAPostfixExpression(ans)
+    if (value == -1)
+      return "Math ERROR"
+    else
     return "The Postfix is := " + ans + ", value is := " + value.toString
   }
 
   def main(args: Array[String]): Unit = {
-
   }
 }
