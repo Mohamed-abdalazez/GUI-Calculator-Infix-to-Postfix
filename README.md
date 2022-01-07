@@ -57,4 +57,4 @@ Its value is : 45
 
 ![Input](https://i.postimg.cc/7ZtNH78X/2.png)
  
-[![2nd.png](https://i.postimg.cc/YqCyD5Bj/2nd.png)](https://postimg.cc/Z0XcCDRh)
+[![2nd.png](https://i.postimg.cc/C1JsjK17/2nd.png)](https://postimg.cc/ZBBNm46v)
