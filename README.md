@@ -49,17 +49,12 @@ Its value is : 45
 
 - Input
 
-- 1 
 ![Input](https://i.postimg.cc/P5SSC9ZW/1.png)
 
-- 2 
 [![1st.png](https://i.postimg.cc/1t0YbPzV/1st.png)](https://postimg.cc/KkzNg6Bm)
 
 - Output
 
-- 1 
 ![Input](https://i.postimg.cc/7ZtNH78X/2.png)
-
-- 2 
+ 
 [![2nd.png](https://i.postimg.cc/YqCyD5Bj/2nd.png)](https://postimg.cc/Z0XcCDRh)
-
