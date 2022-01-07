@@ -49,7 +49,9 @@ Its value is : 45
 
 - Input
 
-![Input](https://i.postimg.cc/P5SSC9ZW/1.png)
+1 - ![Input](https://i.postimg.cc/P5SSC9ZW/1.png)
+
+2 - [![1st.png](https://i.postimg.cc/d3PwjJx7/1st.png)](https://postimg.cc/34BsKQ77)
 
 - Output
 
