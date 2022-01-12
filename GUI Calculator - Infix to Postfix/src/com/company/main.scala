@@ -91,6 +91,12 @@ object get {
         if (obj.isOperator(s(i).toString) && obj.isOperator(s(i + 1).toString)){
           return "-1"
         }
+        if (obj.isOperator(s(i).toString) && s(i+1) == ')') { // +)
+          return "-1"
+        }
+        if (s(i) == '(' && obj.isOperator(s(i + 1).toString)) { // (+
+          return "-1"
+        }
         if(s(i) == '(' && s(i + 1) == ')')
           return "-1"
         if(s(i) == ')' && s(i + 1) == '(')
@@ -98,7 +104,9 @@ object get {
         if (s(i) == '(') cnt += 1
         if (s(i) == ')') cnt -= 1
       }
+
       if (s(s.length - 1) == ')') cnt -= 1
+      if (s(s.length - 1) == '(') cnt += 1
       if (cnt != 0)
         return "-1"
       /*End : if infix expression is wrong*/
@@ -224,7 +232,7 @@ object get {
     value = obj.evaluatingAPostfixExpression(ans)
     if (ans == "-1")
       return "Wrong infix expression"
-    if (value == -1) 
+    if (value == -1)
       return "Math ERROR"
     else
       return "The Postfix is := " + ans + ", value is := " + value.toString
