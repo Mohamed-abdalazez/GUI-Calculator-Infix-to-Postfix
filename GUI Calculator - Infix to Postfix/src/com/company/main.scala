@@ -18,34 +18,43 @@ object get {
     def evaluatingAPostfixExpression(s: String): Int
   }
 
-  class assistantFunctions extends getAssistantFunction {
+  class assistantFunctions extends getAssistantFunction
+  {
     /*
      * implementation of assistant Functions
      * def precedence(c:Char):Int
      * def operation(a:Int, b:Int, c:String):Int
      * def isOperator(c:String):Boolean
      */
-    def precedence(c: Char): Int = {
+    def precedence(c: Char): Int =
+    {
       if (c == '(') return 0
       if (c == '+' || c == '-') return 1
       if (c == '*' || c == '/' || c == '%') return 2
       return -1
     }
 
-    def operation(b: Int, a: Int, c: String): Int = {
+    def operation(b: Int, a: Int, c: String): Int =
+    {
       if (c == "+") return b + a
       else if (c == "-") return b - a
       else if (c == "*") return b * a
-      else if (c == "/") {
+      else if (c == "/")
+      {
         if (a != 0)
           return b / a
         else
           return  -1
       }
-      else if (c == "%") return b % a
-      else return -1
+      else if (c == "%")
+        if (a != 0) return b % a
+        else return  -1
+      else
+        return -1
     }
-    def isOperator(c: String): Boolean = {
+
+    def isOperator(c: String): Boolean =
+    {
       return if ((c == "+") || (c == "-") || (c == "*") || (c == "/") || (c == "%")) true else false
     }
   }
@@ -60,6 +69,40 @@ object get {
     var obj = new assistantFunctions;
 
     def convertFromInfixToPostfix(s: String): String = {
+
+      /*Start : if infix expression is wrong*/
+      var cnt = 0
+      var f = 0
+      val out = new Breaks;
+      out.breakable{
+        for (i <- 0 to s.length - 1) {
+          if (obj.isOperator(s(i).toString)) {
+            f = 1
+            out.break
+          }
+        }
+      }
+      if (f == 0)
+        return "-1"
+      if (s.length == 0 || s.length == 1)
+        return "-1"
+      if (obj.isOperator(s(0).toString) || obj.isOperator(s(s.length - 1).toString) || s(0) == ')') return "-1"
+      for (i <- 0 to s.length - 2) {
+        if (obj.isOperator(s(i).toString) && obj.isOperator(s(i + 1).toString)){
+          return "-1"
+        }
+        if(s(i) == '(' && s(i + 1) == ')')
+          return "-1"
+        if(s(i) == ')' && s(i + 1) == '(')
+          return "-1"
+        if (s(i) == '(') cnt += 1
+        if (s(i) == ')') cnt -= 1
+      }
+      if (s(s.length - 1) == ')') cnt -= 1
+      if (cnt != 0)
+        return "-1"
+      /*End : if infix expression is wrong*/
+
       var number = ""
       var Operator:Char = '$';
       var Postfix = ""
@@ -172,16 +215,19 @@ object get {
   }
   // java Code will call this function
 
-  def Solve(a: String): String = {
+  def Solve(a: String): String =
+  {
     var ans = ""
     var value = 0
     var obj = new mainFunctions()
     ans = obj.convertFromInfixToPostfix(a)
     value = obj.evaluatingAPostfixExpression(ans)
-    if (value == -1)
+    if (ans == "-1")
+      return "Wrong infix expression"
+    if (value == -1) 
       return "Math ERROR"
     else
-    return "The Postfix is := " + ans + ", value is := " + value.toString
+      return "The Postfix is := " + ans + ", value is := " + value.toString
   }
 
   def main(args: Array[String]): Unit = {
