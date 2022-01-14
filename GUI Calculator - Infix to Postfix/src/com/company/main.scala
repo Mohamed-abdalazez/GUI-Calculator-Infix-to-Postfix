@@ -70,46 +70,52 @@ object get {
 
     def convertFromInfixToPostfix(s: String): String = {
 
-      /*Start : if infix expression is wrong*/
-      var cnt = 0
-      var f = 0
-      val out = new Breaks;
-      out.breakable{
-        for (i <- 0 to s.length - 1) {
-          if (obj.isOperator(s(i).toString)) {
-            f = 1
-            out.break
+      def checkIfInfixValid(s: String): String = {
+        var cnt = 0
+        var f = 0
+        val out = new Breaks;
+        out.breakable{
+          for (i <- 0 to s.length - 1) {
+            if (obj.isOperator(s(i).toString)) {
+              f = 1
+              out.break
+            }
           }
         }
-      }
-      if (f == 0)
-        return "-1"
-      if (s.length == 0 || s.length == 1)
-        return "-1"
-      if (obj.isOperator(s(0).toString) || obj.isOperator(s(s.length - 1).toString) || s(0) == ')') return "-1"
-      for (i <- 0 to s.length - 2) {
-        if (obj.isOperator(s(i).toString) && obj.isOperator(s(i + 1).toString)){
+        if (f == 0)
           return "-1"
+        if (s.length == 0 || s.length == 1)
+          return "-1"
+        if (obj.isOperator(s(0).toString) || obj.isOperator(s(s.length - 1).toString) || s(0) == ')') return "-1"
+        for (i <- 0 to s.length - 2) {
+          if (obj.isOperator(s(i).toString) && obj.isOperator(s(i + 1).toString)){
+            return "-1"
+          }
+          if (obj.isOperator(s(i).toString) && s(i+1) == ')') { // +)
+            return "-1"
+          }
+          if (s(i) == '(' && obj.isOperator(s(i + 1).toString)) { // (+
+            return "-1"
+          }
+          if(s(i) == '(' && s(i + 1) == ')')
+            return "-1"
+          if(s(i) == ')' && s(i + 1) == '(')
+            return "-1"
+          if (s(i) == '(') cnt += 1
+          if (s(i) == ')') cnt -= 1
         }
-        if (obj.isOperator(s(i).toString) && s(i+1) == ')') { // +)
-          return "-1"
-        }
-        if (s(i) == '(' && obj.isOperator(s(i + 1).toString)) { // (+
-          return "-1"
-        }
-        if(s(i) == '(' && s(i + 1) == ')')
-          return "-1"
-        if(s(i) == ')' && s(i + 1) == '(')
-          return "-1"
-        if (s(i) == '(') cnt += 1
-        if (s(i) == ')') cnt -= 1
-      }
 
-      if (s(s.length - 1) == ')') cnt -= 1
-      if (s(s.length - 1) == '(') cnt += 1
-      if (cnt != 0)
+        if (s(s.length - 1) == ')') cnt -= 1
+        if (s(s.length - 1) == '(') cnt += 1
+        if (cnt != 0) {
+          return "-1"
+        }
+        return "1"
+      }
+      //Check if infix is valid
+      var valid = checkIfInfixValid(s)
+      if (valid == "-1")
         return "-1"
-      /*End : if infix expression is wrong*/
 
       var number = ""
       var Operator:Char = '$';
